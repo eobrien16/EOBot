@@ -170,7 +170,7 @@ client.on("message", async message => {
           description: "***Usage: ```>nou [username]```***"
         }})
       } else {
-      return message.channel.send({embed: {
+      return message.author.send({embed: {
         color: 1638655,
         title: "EOBot -- created with hate by eobsite1",
         thumbnail: {
@@ -290,6 +290,17 @@ client.on("message", async message => {
     color: 1638655,
     description: arguments[1] + " no u."
   }})
+} else if (message.content.startsWith(">activity")) {
+  let actvty = args.slice(1).join(' ');
+  await message.delete(0);
+  if(!message.member.roles.some(r=>["Founder", "Administrator", "Moderator"].includes(r.name)) )
+    return message.channel.send({embed: {
+      color: 16711680,
+      description: "***Your not a high enough rank to make me say '" + actvty + "'you inbred piece of shit.***"
+    }})
+  return client.user.setActivity(actvty);
+} else if (message.content.startsWith(">nick")) {
+
 } else if (message.content.startsWith(">")) {
       await message.delete(0);
       return message.reply("***Thats not a command you ignorant fuck.***");
