@@ -74,10 +74,20 @@ client.on("message", async message => {
     if (message.content.indexOf(' ') !== -1) {
       let user = message.mentions.users.first();
       let avtr = user.avatarURL;
-      return message.reply(avtr);
+      return message.channel.send({embed: {
+        color: 1638655,
+        image: {
+          url: avtr
+        }
+      }})
     } else {
         let avtr = message.author.avatarURL;
-        return message.channel.reply(avtr);
+        return message.channel.send({embed: {
+          color: 1638655,
+          image: {
+            url: avtr
+          }
+        }})
     }
   } else if (message.content.startsWith(">debug")){
     let user = message.mentions.users.first();
@@ -169,6 +179,11 @@ client.on("message", async message => {
           color: 1638655,
           description: "***Usage: ```>nou [username]```***"
         }})
+      } else if (arguments[1] == "nick"){
+        return message.channel.send({embed: {
+          color: 1638655,
+          description: "***Usage: ```>nick [username] [new nick]```***"
+        }})
       } else {
       return message.author.send({embed: {
         color: 1638655,
@@ -215,6 +230,10 @@ client.on("message", async message => {
        {
          name: ">nou",
          value: "lets you flex on someone with your no u."
+       },
+       {
+         name: ">nick",
+         value: "lets you change a persons nick."
        }
      ],
      timestamp: new Date(),
@@ -296,11 +315,32 @@ client.on("message", async message => {
   if(!message.member.roles.some(r=>["Founder", "Administrator", "Moderator"].includes(r.name)) )
     return message.channel.send({embed: {
       color: 16711680,
-      description: "***Your not a high enough rank to make me say '" + actvty + "'you inbred piece of shit.***"
+      description: "***Your not a high enough rank to make me play '" + actvty + "' you inbred piece of shit.***"
     }})
   return client.user.setActivity(actvty);
 } else if (message.content.startsWith(">nick")) {
-
+  await message.delete(0);
+  let user = message.mentions.members.first()
+  if(!user)
+    return message.channel.send({embed: {
+      color: 16711680,
+      description: "***Specify a user you spasticated fuck.***"
+    }})
+  if(!arguments[2])
+    return message.channel.send({embed: {
+      color: 16711680,
+      description: "***You need to change it to something you brain dead piece of shit.***"
+    }})
+  if(!message.member.roles.some(r=>["Founder", "Administrator", "Moderator"].includes(r.name)))
+    return message.channel.send({embed: {
+      color: 16711680,
+      description: "***Your not a high enough rank you inbred piece of shit.***"
+    }})
+  await message.channel.send({embed: {
+    color: 1638655,
+    description: "Changed " + user + "'s nick to " + arguments[2]
+  }})
+  return user.setNickname(arguments[2])
 } else if (message.content.startsWith(">")) {
       await message.delete(0);
       return message.reply("***Thats not a command you ignorant fuck.***");
