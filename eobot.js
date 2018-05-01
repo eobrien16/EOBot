@@ -1,7 +1,6 @@
 const Discord = require("discord.js");
 const client = new Discord.Client();
 const config = require("./config.json");
-
 client.on("ready", () => {
   console.log("I am ready!");
   client.user.setActivity('Prefix: >');
@@ -67,8 +66,7 @@ client.on("message", async message => {
             text: "EOBot ModUtils"
           }
         }})
-      }
-  } else if (message.content.startsWith(">avatar")) {
+        } else if (message.content.startsWith(">avatar")) {
     var messagez = ' '
     await message.delete(0);
     if (message.content.indexOf(' ') !== -1) {
@@ -124,7 +122,7 @@ client.on("message", async message => {
           .catch(error => message.reply(`You completely fucked up here: ${error}`));
         return message.channel.send({embed: {
           color: 1638655,
-          description: "***mk, deleted " + deleteCount*10 + " messages***"
+          description: "***mk, deleted a random number of messages***"
         }})
     }
   } else if (message.content.startsWith(">help")){
@@ -321,6 +319,7 @@ client.on("message", async message => {
 } else if (message.content.startsWith(">nick")) {
   await message.delete(0);
   let user = message.mentions.members.first()
+  let avtr = user.avatarURL
   if(!user)
     return message.channel.send({embed: {
       color: 16711680,
@@ -338,6 +337,7 @@ client.on("message", async message => {
     }})
   await message.channel.send({embed: {
     color: 1638655,
+    title: "Nick Changed",
     description: "Changed " + user + "'s nick to " + arguments[2]
   }})
   return user.setNickname(arguments[2])
