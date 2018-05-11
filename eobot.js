@@ -41,7 +41,33 @@ client.on("message", async message => {
       await member.kick(reason)
         .catch(error => message.reply(`Sorry ${message.author} I couldn't kick because of : ${error}`));
       for (i = 0; i <= 1; i++){
-        await message.channel.send({embed: {
+        await message.guild.channels.find("name", "public-mod-logs").send({embed: {
+          color: 1638655,
+          title: "Member Kicked",
+          thumbnail: {
+            url: user.avatarURL
+          },
+          fields: [{
+              name: "Member",
+              value: arguments[1]
+            },
+            {
+              name: "Moderator",
+              value: `${message.author}`
+            },
+            {
+              name: "Reason",
+              value: reason
+            }
+          ],
+          timestamp: new Date(),
+          footer: {
+            icon_url: client.user.avatarURL,
+            text: "EOBot ModUtils"
+          }
+        }})
+        await message.delete(10);
+        return message.guild.channels.find("name", "public-mod-logs").send({embed: {
           color: 1638655,
           title: "Member Kicked",
           thumbnail: {
@@ -66,7 +92,8 @@ client.on("message", async message => {
             text: "EOBot ModUtils"
           }
         }})
-        } else if (message.content.startsWith(">avatar")) {
+        }
+      } else if (message.content.startsWith(">avatar")) {
     var messagez = ' '
     await message.delete(0);
     if (message.content.indexOf(' ') !== -1) {
@@ -265,33 +292,59 @@ client.on("message", async message => {
     let user = message.mentions.users.first();
     await member.ban(reason)
       .catch(error => message.reply(`Sorry ${message.author} I couldn't ban because of : ${error}`));
-    for (i = 0; i <= 1; i++){
-      return message.channel.send({embed: {
-        color: 1638655,
-        title: "Member Banned",
-        image: {
-          url: user.avatarURL
-        },
-        fields: [{
-            name: "Member",
-            value: arguments[1]
+      for (i = 0; i <= 1; i++){
+        await message.guild.channels.find("name", "public-mod-logs").send({embed: {
+          color: 1638655,
+          title: "Member Kicked",
+          thumbnail: {
+            url: user.avatarURL
           },
-          {
-            name: "Moderator",
-            value: `${message.author}`
-          },
-          {
-            name: "Reason",
-            value: arguments[2]
+          fields: [{
+              name: "Member",
+              value: arguments[1]
+            },
+            {
+              name: "Moderator",
+              value: `${message.author}`
+            },
+            {
+              name: "Reason",
+              value: reason
+            }
+          ],
+          timestamp: new Date(),
+          footer: {
+            icon_url: client.user.avatarURL,
+            text: "EOBot ModUtils"
           }
-        ],
-        timestamp: new Date(),
-        footer: {
-          icon_url: client.user.avatarURL,
-          text: "EOBot ModUtils"
+        }})
+        await message.delete(10);
+        return message.guild.channels.find("name", "public-mod-logs").send({embed: {
+          color: 1638655,
+          title: "Member Kicked",
+          thumbnail: {
+            url: user.avatarURL
+          },
+          fields: [{
+              name: "Member",
+              value: arguments[1]
+            },
+            {
+              name: "Moderator",
+              value: `${message.author}`
+            },
+            {
+              name: "Reason",
+              value: arguments[2]
+            }
+          ],
+          timestamp: new Date(),
+          footer: {
+            icon_url: client.user.avatarURL,
+            text: "EOBot ModUtils"
+          }
+        }})
         }
-      }})
-    }
 
 } else if (message.content.startsWith(">nou")) {
   await message.delete(0);
@@ -341,9 +394,27 @@ client.on("message", async message => {
     description: "Changed " + user + "'s nick to " + arguments[2]
   }})
   return user.setNickname(arguments[2])
+} else if (message.content.startsWith(">rules")) {
+  await message.delete(0);
+  await message.channel.send({embed: {
+    color: 16711925,
+    title: "Rule 1",
+    description: "Dont talk about <#443353322683105283>"
+  }})
+  await message.channel.send({embed: {
+    color: 8311585,
+    title: "Rule 2",
+    description: "No nsfw in regular channels. Not everyone wants to see anal at 3 AM."
+  }})
+  return message.channel.send({embed: {
+    color: 9442302,
+    title: "Rule 3",
+    description: "No creepy as fuck DMs. We get that you're lonely, but keep it in your pants."
+  }})
+  await message.channe
 } else if (message.content.startsWith(">")) {
       await message.delete(0);
       return message.reply("***Thats not a command you ignorant fuck.***");
   }
 });
-client.login("NDM1MTY1MDYzMzMxMTg0NjQw.Dbk1_g.WKfaqxuC-sQRsE968Cn06RYR69k");
+client.login(config.token);
