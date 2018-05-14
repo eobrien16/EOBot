@@ -209,6 +209,11 @@ client.on("message", async message => {
           color: 1638655,
           description: "***Usage: ```>nick [username] [new nick]```***"
         }})
+      } else if (arguments[1] == "icon"){
+        return message.channel.send({embed: {
+          color: 1638655,
+          description: "***Usage: ```>icon [app name] [link] [reason]```***"
+        }})
       } else {
       return message.author.send({embed: {
         color: 1638655,
@@ -259,6 +264,10 @@ client.on("message", async message => {
        {
          name: ">nick",
          value: "lets you change a persons nick."
+       },
+       {
+         name: ">icon",
+         value: "lets you request an icon for our theme"
        }
      ],
      timestamp: new Date(),
@@ -295,7 +304,7 @@ client.on("message", async message => {
       for (i = 0; i <= 1; i++){
         await message.guild.channels.find("name", "public-mod-logs").send({embed: {
           color: 1638655,
-          title: "Member Kicked",
+          title: "Member Banned",
           thumbnail: {
             url: user.avatarURL
           },
@@ -412,6 +421,30 @@ client.on("message", async message => {
     description: "No creepy as fuck DMs. We get that you're lonely, but keep it in your pants."
   }})
   await message.channe
+} else if (message.content.startsWith(">icon")) {
+  await message.delete(0);
+  return message.guild.channels.find("name", "holy-fuck-someone-requested-summat").send({embed: {
+    color: 1638655,
+    title: "Icon request",
+    fields: [{
+        name: "App Name",
+        value: arguments[1]
+      },
+      {
+        name: "Link",
+        value: arguments[2]
+      },
+      {
+        name: "Reason",
+        value: arguments[3] + " " + arguments[4] + " " + arguments[5]
+      }
+    ],
+    timestamp: new Date(),
+    footer: {
+      icon_url: client.user.avatarURL,
+      text: "EOBot ThemeUtils"
+    }
+  }})
 } else if (message.content.startsWith(">")) {
       await message.delete(0);
       return message.reply("***Thats not a command you ignorant fuck.***");
